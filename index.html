@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CogniFlow</title>
+    <link rel="stylesheet" href="src/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">CF</div>
+          <div>
+            <h1>CogniFlow</h1>
+            <p>Emotion-aware second brain</p>
+          </div>
+        </div>
+
+        <nav class="nav-list" aria-label="Workspace sections">
+          <button class="nav-item active" data-view="home" type="button">Home</button>
+          <button class="nav-item" data-view="demo" type="button">Demo Guide</button>
+          <button class="nav-item" data-view="dashboard" type="button">Dashboard</button>
+          <button class="nav-item" data-view="tasks" type="button">Tasks</button>
+          <button class="nav-item" data-view="memory" type="button">Memory</button>
+          <button class="nav-item" data-view="history" type="button">Study History</button>
+          <button class="nav-item" data-view="data" type="button">Data</button>
+          <button class="nav-item" data-view="ethics" type="button">AI Guardrails</button>
+        </nav>
+
+        <div class="privacy-box">
+          <span class="privacy-dot"></span>
+          <div>
+            <strong>Local demo mode</strong>
+            <p>Inputs stay in this browser through localStorage. No server is used.</p>
+          </div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <section class="topbar">
+          <div>
+            <p class="eyebrow">Student workload assistant</p>
+            <h2 id="viewTitle">Project Overview</h2>
+          </div>
+          <div class="status-strip">
+            <span id="stateBadge" class="state-badge neutral">Neutral</span>
+            <span id="dateStamp"></span>
+          </div>
+        </section>
+
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+
+        <section class="view active" id="homeView" aria-labelledby="viewTitle">
+          <section class="hero-panel">
+            <div class="hero-copy">
+              <p class="eyebrow">Complete local JavaScript system</p>
+              <h3>CogniFlow helps students decide what to study next when work feels scattered or stressful.</h3>
+              <p>Students add tasks, notes, study logs, and a short check-in. CogniFlow reads the workload, detects stress/focus signals, finds relevant saved notes, and builds a practical plan that the student can accept, edit, or reject.</p>
+              <div class="button-row">
+                <button class="primary-btn" data-jump-view="demo" type="button">See demo steps</button>
+                <button class="secondary-btn" data-jump-view="dashboard" type="button">Use system</button>
+              </div>
+            </div>
+            <div class="hero-output" aria-label="Example CogniFlow output">
+              <div class="output-top"><span class="state-badge overwhelmed">Overwhelmed</span><span>sample output</span></div>
+              <ol class="plan-list">
+                <li>Work on "Revise DBMS normalization" for 25 minutes only.</li>
+                <li>Open memory note "DBMS revision checklist" before starting.</li>
+                <li>Hide non-urgent tasks until the first block is complete.</li>
+              </ol>
+            </div>
+          </section>
+
+          <div class="feature-grid">
+            <section class="panel"><h3>Problem</h3><p class="small-note">Students often have quizzes, assignments, notes, and personal pressure at the same time. The hard part is deciding the next action.</p></section>
+            <section class="panel"><h3>Input</h3><p class="small-note">The system accepts a check-in sentence, academic tasks, course notes, and study history logs.</p></section>
+            <section class="panel"><h3>AI Logic</h3><p class="small-note">It uses local keyword/NLP signals, task urgency scoring, note retrieval, and weak-topic detection. No paid API is required.</p></section>
+            <section class="panel"><h3>Output</h3><p class="small-note">It returns a cognitive state, confidence, detected signals, relevant notes, and an adaptive plan.</p></section>
+            <section class="panel"><h3>Why Helpful</h3><p class="small-note">A stressed student gets a smaller first step instead of a long generic to-do list.</p></section>
+            <section class="panel"><h3>Privacy</h3><p class="small-note">All demo data is stored locally in the browser using localStorage. There is no server upload.</p></section>
+          </div>
+        </section>
+
+        <section class="view" id="demoView" aria-labelledby="viewTitle">
+          <div class="demo-layout">
+            <section class="panel demo-card">
+              <div class="panel-heading"><h3>Non-Technical Demo</h3><button id="demoLoadSampleBtn" class="primary-btn" type="button">Load sample demo</button></div>
+              <p class="small-note">Use this flow to explain CogniFlow to any non-technical person in 2-3 minutes.</p>
+              <div class="step-list">
+                <article><strong>1. Student writes a check-in</strong><p>Example: I feel stressed because my DBMS quiz is tomorrow and normalization is weak.</p></article>
+                <article><strong>2. Student adds tasks</strong><p>Example tasks include DBMS revision, AI assignment, and OS reading with priorities and due dates.</p></article>
+                <article><strong>3. Student saves notes</strong><p>The memory stores useful notes like DBMS weak topics and revision checklists.</p></article>
+                <article><strong>4. CogniFlow analyzes the situation</strong><p>It detects stress words, urgent deadlines, active task count, and weak topics from study history.</p></article>
+                <article><strong>5. CogniFlow gives a plan</strong><p>The output is a small action plan, relevant note suggestions, confidence score, and reasons.</p></article>
+                <article><strong>6. Student stays in control</strong><p>The student can accept, edit, or reject the recommendation.</p></article>
+              </div>
+              <div class="button-row"><button id="demoOpenDashboardBtn" class="secondary-btn" type="button">Open generated output</button><button class="ghost-btn" data-jump-view="ethics" type="button">View guardrails</button></div>
+            </section>
+
+            <section class="panel">
+              <h3>Expected Demo Output</h3>
+              <div class="demo-output-list">
+                <div><span class="state-badge overwhelmed">Overwhelmed</span><p>State is high overload because the check-in has stress terms and urgent tasks.</p></div>
+                <div><strong>Retrieved note</strong><p>DBMS notes rank above unrelated AI notes when the active task is DBMS.</p></div>
+                <div><strong>Adaptive plan</strong><p>First action becomes a 25-minute DBMS revision block, not a broad study schedule.</p></div>
+                <div><strong>Helpful result</strong><p>The student knows exactly what to do first and can revise the plan before acting.</p></div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="dashboardView" aria-labelledby="viewTitle">
+          <div class="dashboard-grid">
+            <section class="panel intake-panel">
+              <div class="panel-heading">
+                <h3>Student Check-In</h3>
+                <button id="loadScenarioBtn" class="ghost-btn" type="button">Load sample</button>
+              </div>
+              <label for="checkinText">How are you feeling and what is happening?</label>
+              <textarea id="checkinText" rows="7" placeholder="Example: I feel stressed because my DBMS quiz is tomorrow and normalization is weak."></textarea>
+              <p class="field-error" id="checkinError"></p>
+
+              <div class="button-row">
+                <button id="analyzeBtn" class="primary-btn" type="button">Analyze and plan</button>
+                <button id="clearCheckinBtn" class="secondary-btn" type="button">Clear check-in</button>
+              </div>
+            </section>
+
+            <section class="panel state-panel">
+              <div class="panel-heading">
+                <h3>Cognitive State</h3>
+                <span id="confidenceText">0% confidence</span>
+              </div>
+              <div class="meter-wrap">
+                <div class="meter"><span id="stressMeter"></span></div>
+                <div class="meter-labels"><span>Focused</span><span>Overwhelmed</span></div>
+              </div>
+              <div class="state-details" id="stateDetails">Add a real check-in sentence to estimate cognitive load.</div>
+              <div class="signals" id="signalList"></div>
+            </section>
+
+            <section class="panel plan-panel">
+              <div class="panel-heading">
+                <h3>Recommended Plan</h3>
+                <span id="planMode">Waiting</span>
+              </div>
+              <ol class="plan-list" id="planList"></ol>
+              <div class="button-row">
+                <button id="acceptPlanBtn" class="primary-btn" type="button">Accept</button>
+                <button id="editPlanBtn" class="secondary-btn" type="button">Edit</button>
+                <button id="rejectPlanBtn" class="danger-btn" type="button">Reject</button>
+              </div>
+              <p class="small-note" id="humanLoopNote">The student makes the final decision. CogniFlow only recommends.</p>
+            </section>
+
+            <section class="panel summary-panel">
+              <div class="panel-heading">
+                <h3>Workspace Summary</h3>
+                <span id="storageText">Saved locally</span>
+              </div>
+              <div class="summary-grid">
+                <div><strong id="taskCount">0</strong><span>tasks</span></div>
+                <div><strong id="noteCount">0</strong><span>notes</span></div>
+                <div><strong id="logCount">0</strong><span>logs</span></div>
+                <div><strong id="weakCount">0</strong><span>weak topics</span></div>
+              </div>
+              <div class="mini-list" id="weakTopicList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="tasksView">
+          <div class="two-column-layout">
+            <section class="panel">
+              <div class="panel-heading"><h3>Add Task</h3><button id="clearDoneTasksBtn" class="ghost-btn" type="button">Clear done</button></div>
+              <label for="taskTitle">Task</label>
+              <input id="taskTitle" type="text" placeholder="Practice DBMS normalization forms">
+              <div class="form-row">
+                <div><label for="taskCourse">Course</label><input id="taskCourse" type="text" placeholder="DBMS"></div>
+                <div><label for="taskDue">Due</label><input id="taskDue" type="date"></div>
+                <div><label for="taskPriority">Priority</label><select id="taskPriority"><option value="5">Critical</option><option value="4">High</option><option value="3" selected>Medium</option><option value="2">Low</option><option value="1">Tiny</option></select></div>
+              </div>
+              <div class="form-row compact">
+                <div><label for="taskEffort">Effort minutes</label><input id="taskEffort" type="number" min="5" max="360" step="5" value="45"></div>
+                <div><label for="taskStatus">Status</label><select id="taskStatus"><option value="open">Open</option><option value="done">Done</option></select></div>
+              </div>
+              <p class="field-error" id="taskError"></p>
+              <div class="button-row"><button id="addTaskBtn" class="primary-btn" type="button">Save task</button><button id="cancelTaskEditBtn" class="secondary-btn hidden" type="button">Cancel edit</button></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading"><h3>Tasks</h3><button id="clearTasksBtn" class="danger-btn" type="button">Clear all</button></div>
+              <div class="task-list" id="taskList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="memoryView">
+          <div class="two-column-layout">
+            <section class="panel">
+              <div class="panel-heading"><h3>Knowledge Memory</h3><button id="addNoteBtn" class="primary-btn" type="button">Save note</button></div>
+              <label for="noteTitle">Title</label>
+              <input id="noteTitle" type="text" placeholder="DBMS normalization weak points">
+              <label for="noteBody">Note</label>
+              <textarea id="noteBody" rows="8" placeholder="Write lecture notes, exam reminders, project details, or personal study observations."></textarea>
+              <p class="field-error" id="noteError"></p>
+              <div class="button-row"><button id="cancelNoteEditBtn" class="secondary-btn hidden" type="button">Cancel edit</button></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading"><h3>Ask Your Second Brain</h3><button id="searchMemoryBtn" class="secondary-btn" type="button">Search</button></div>
+              <label for="memoryQuery">Question</label>
+              <input id="memoryQuery" type="text" placeholder="What should I revise for DBMS?">
+              <div class="memory-results" id="memoryResults"></div>
+            </section>
+          </div>
+          <section class="panel list-panel">
+            <div class="panel-heading"><h3>Saved Notes</h3><button id="clearNotesBtn" class="danger-btn" type="button">Clear notes</button></div>
+            <div class="memory-results" id="noteList"></div>
+          </section>
+        </section>
+
+        <section class="view" id="historyView">
+          <div class="two-column-layout">
+            <section class="panel">
+              <div class="panel-heading"><h3>Add Study Log</h3><button id="addLogBtn" class="primary-btn" type="button">Save log</button></div>
+              <div class="form-row compact">
+                <div><label for="logDate">Date</label><input id="logDate" type="date"></div>
+                <div><label for="logCourse">Course</label><input id="logCourse" type="text" placeholder="DBMS"></div>
+              </div>
+              <label for="logTopic">Topic</label>
+              <input id="logTopic" type="text" placeholder="SQL joins and normalization">
+              <div class="form-row compact">
+                <div><label for="logMinutes">Minutes</label><input id="logMinutes" type="number" min="5" max="480" step="5" value="40"></div>
+                <div><label for="historyQuestion">History question</label><input id="historyQuestion" type="text" placeholder="What did I study yesterday?"></div>
+              </div>
+              <label for="logReflection">Reflection</label>
+              <textarea id="logReflection" rows="5" placeholder="2NF and 3NF still felt weak."></textarea>
+              <p class="field-error" id="logError"></p>
+              <div class="button-row"><button id="answerHistoryBtn" class="secondary-btn" type="button">Answer question</button><button id="cancelLogEditBtn" class="secondary-btn hidden" type="button">Cancel edit</button></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading"><h3>Study History Answer</h3><button id="clearLogsBtn" class="danger-btn" type="button">Clear logs</button></div>
+              <div class="state-details" id="historyAnswer">Ask a question or add a study log.</div>
+              <div class="task-list" id="studyLogList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="dataView">
+          <div class="two-column-layout">
+            <section class="panel">
+              <h3>Data Controls</h3>
+              <p class="small-note">Export/import copies your browser-only CogniFlow data. Reset clears this browser workspace.</p>
+              <div class="button-row">
+                <button id="exportDataBtn" class="primary-btn" type="button">Export JSON</button>
+                <button id="importDataBtn" class="secondary-btn" type="button">Import JSON</button>
+                <button id="resetAppBtn" class="danger-btn" type="button">Reset app</button>
+              </div>
+              <input id="importFile" class="hidden" type="file" accept="application/json">
+            </section>
+            <section class="panel">
+              <h3>Accepted Plan</h3>
+              <div class="memory-results" id="acceptedPlanList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="ethicsView">
+          <div class="ethics-grid">
+            <section class="panel"><h3>Responsible AI Controls</h3><ul class="check-list"><li>Local browser storage for demo data.</li><li>No medical diagnosis or therapy claims.</li><li>Transparent stress signals and confidence score.</li><li>Student approval required before a plan is adopted.</li><li>Delete, reset, export, and import controls for user data.</li></ul></section>
+            <section class="panel"><h3>Known Limits</h3><ul class="check-list"><li>Keyword and pattern-based classifier can be wrong.</li><li>Recommendations are decision support, not commands.</li><li>Demo uses synthetic examples and user input only.</li><li>Users in crisis should contact trusted people or local emergency support.</li></ul></section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="editDialog">
+      <form method="dialog" class="dialog-card">
+        <h3>Edit Accepted Plan</h3>
+        <textarea id="editablePlan" rows="8"></textarea>
+        <div class="button-row"><button id="saveEditedPlanBtn" class="primary-btn" value="default" type="button">Save</button><button class="secondary-btn" value="cancel" type="submit">Cancel</button></div>
+      </form>
+    </dialog>
+
+    <script src="src/app.js"></script>
+  </body>
+</html>
